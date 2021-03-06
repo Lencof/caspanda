@@ -9,18 +9,19 @@ Bamboo, like what PANDAS eat. Get it??
 CassandraFrame implements synchronous and asynchronous insertion operations, and MultiIndexes output from Cassandra
 in order to support pivot- and melt-like operations.
 """
-import logging
+import logging # use logging
 import pandas as pd
 try:
-    import Queue as queue
+    import Queue as queue 
 except ImportError:
     # Python 3
-    import queue
+    import queue # use queue
 from cassandra.cluster import Session
 
 from caspanda.utils import paste
 
 
+# create class class CassandraFrame(pd.DataFrame):
 class CassandraFrame(pd.DataFrame):
     """
     Wrapper for pandas.DataFrame.
@@ -34,7 +35,7 @@ class CassandraFrame(pd.DataFrame):
     _prepared_columns    = None
     _insert_index        = None
 
-
+    # create def __init__(self, data=None, index=None, columns=None, cql=None, session=None, table=None, dtype=None,
     def __init__(self, data=None, index=None, columns=None, cql=None, session=None, table=None, dtype=None,
                  copy=False, cql_columns=None, *args, **kwargs):
 
@@ -48,16 +49,16 @@ class CassandraFrame(pd.DataFrame):
  
         self.set_cql_columns(cql_columns)
 
-
+    # create def put(self, table=None):
     def put(self, table=None):
         """
         TODO: (???)
         """
         if table is not None:
             self.table = table
-        pass
+        pass # an empty block
 
-
+    # create def create_cql_insert(self):
     def create_cql_insert(self):
         """
         Given a table, prepares a statement to allow the dataframe to be inserted row by row into cassandra.
@@ -79,7 +80,7 @@ class CassandraFrame(pd.DataFrame):
 
         return
 
-
+    # create def insert_sync(self):
     def insert_sync(self):
         """
         Insert rows synchronously into Cassandra.
@@ -95,7 +96,7 @@ class CassandraFrame(pd.DataFrame):
 
         return
 
-
+    # create def insert_async(self):
     def insert_async(self):
         """
         Insert rows asynchronously into Cassandra.
@@ -104,14 +105,17 @@ class CassandraFrame(pd.DataFrame):
         """
         assert self._cql_columns == self._prepared_columns
         assert self.statement_input is not None, 'Statement_input not defined. Use create_cql_insert().'
-
+        
+        # create def def handle_success(rows):
         def handle_success(rows):
-            pass
-
+            pass # an empty block
+        
+        # create def handle_error(exception):
         def handle_error(exception):
             logging.error("Failed to send data info: %s", exception)
             return
-
+        
+        # create def put(i):
         def put(i):
             future = self.session.execute_async(self.statement_input.bind(self.loc[i, self._prepared_columns]))
             future.add_callbacks(handle_success, handle_error)
@@ -121,7 +125,7 @@ class CassandraFrame(pd.DataFrame):
 
         return
 
-
+    # create def insert_callback(self):
     def insert_callback(self):
         """
         TODO: code the upper limit on concurrent futures, clean up (and deprecate insert_async??)
@@ -134,7 +138,8 @@ class CassandraFrame(pd.DataFrame):
         assert self.statement_input is not None, 'Statement_input not defined. Use create_cql_insert().'
 
         map(self.insert_queue.put_nowait, range(self.__len__()))
-
+        
+        # create def handle_success(rows):
         def handle_success(rows):
             """
             Queue raises an Empty exception when it hits the bottom of the queue (after blocking for `timeout` seconds).
@@ -155,7 +160,8 @@ class CassandraFrame(pd.DataFrame):
                                                                 # need hard upper limit on number of concurrent futures
                                                                 # something like: for i in range(min(120, self.__len__())):
             return future
-
+        
+        # create def handle_error(exception):
         def handle_error(exception):
             """
             Log error and recurse.
@@ -168,7 +174,7 @@ class CassandraFrame(pd.DataFrame):
 
         return future.result()
 
-
+    # create def get_cql_columns(self):
     def get_cql_columns(self):
         return self._cql_columns
 
@@ -182,7 +188,7 @@ class CassandraFrame(pd.DataFrame):
 
         return
 
-
+    # create def set_session(self, session):
     def set_session(self, session):
         """
         Setter method for self.session.
@@ -200,6 +206,6 @@ class CassandraFrame(pd.DataFrame):
 
         return
 
-
+# you can continue to build up the functionality
 
 
