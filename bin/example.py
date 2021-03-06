@@ -58,7 +58,7 @@ print "As opposed to this:"
 print cl.metadata.keyspaces["tests"].tables["sold_cars"].export_as_string()
 
 
-cl.shutdown()
+cl.shutdown() # close
 
 
 
