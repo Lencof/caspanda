@@ -11,6 +11,10 @@ in order to support pivot- and melt-like operations.
 """
 import logging # use logging
 import pandas as pd
+import re
+import os
+import sys 
+
 try:
     import Queue as queue 
 except ImportError:
