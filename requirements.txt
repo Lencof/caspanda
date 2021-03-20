@@ -1,1 +1,17 @@
+# __Author__ __Lencof__
+# requirements.txt
 
+pip install unittest
+pip install re
+pip install queue 
+pip install pandas
+pip install logging
+pip install find_packages
+pip install TableMetadata
+pip install paste
+pip install lookup_casstype
+pip install print_ls
+pip install itervalues
+pip install ColumnMetaCluster
+pip install CassandraFrame
+pip install KeyspaceMeta
